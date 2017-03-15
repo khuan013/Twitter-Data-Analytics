@@ -1,0 +1,31 @@
+<h1>{{ place }}</h1>
+
+<h2>Details:</h2>
+<table>
+    <tr>
+        <th>Population</th>
+        <td>{{ population }}</td>
+    </tr>
+    <tr>
+        <th>Avg. Grade Level</th>
+        <td>{{ avg_grade }}</td>
+    </tr>
+    <tr>
+        <th>Avg. Income</th>
+        <td>{{ avg_income }}</td>
+    </tr>
+    <tr>
+        <th>Avg. Followers</th>
+        <td>{{ avg_followers }}</td>
+    </tr>
+    <tr>
+        <th>Avg. Statuses</th>
+        <td>{{ avg_statuses }}</td>
+    </tr>
+    <tr>
+        <th>Avg. Tweet Length</th>
+        <td>{{ avg_tweet_length }}</td>
+    </tr>
+</table>
+
+<a href="{% url 'cs179:index' %}">Search Again</a>
