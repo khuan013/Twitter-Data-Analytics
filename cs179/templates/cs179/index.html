@@ -71,6 +71,8 @@
 
 <html>
   <head>
+	
+
     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <script type='text/javascript'>
      google.load('visualization', '1', {
@@ -81,6 +83,7 @@
 	var currentRegion;
 	var data;
 	var list = {{citydata|safe}};
+        var list2 = {{twitterdata|safe}}
 
 
     // INCOME DATA
@@ -97,10 +100,12 @@
             {% endfor %}
         ], false);*/
 
+	var table = new google.visualization.Table(document.getElementById('table'));
+	table.clearChart();
 
         var options = {
           colorAxis: {
-            colors: ['F5F8FF', '0048FE']
+            colors: ['FB0094', '99ABFD', '0048FE']
           },
           region: 'US',
           displayMode: 'regions',
@@ -121,6 +126,8 @@
 
           if (currentRegion.substring(0, 3) == "US-") {
             options['displayMode'] = 'markers';
+
+		var table_list = [ ['City', 'Average Income', 'Population'] ];
 		var new_list = [ ['City', 'Income'] ];
 		for (var i=0, l=list.length; i<l; i++) {
 			if (list[i][0].endsWith(currentRegion.substring(3,6))) {
@@ -131,10 +138,23 @@
 			}
 		}		
             var data = google.visualization.arrayToDataTable( new_list);
+
+		for (var i=0, l=list.length; i<l; i++) {
+			if (list[i][0].endsWith(currentRegion.substring(3,6))) {
+				var temp = [];
+				temp.push(list[i][0]);
+				temp.push(list[i][1]);
+				temp.push(list[i][2]);
+				table_list.push(temp);
+			}
+		}	
             
 	  }
 
           geochart.draw(data, options);
+	
+		var tabledata = google.visualization.arrayToDataTable(table_list);	
+	  table.draw(tabledata,null);
 
 
         });
@@ -179,7 +199,8 @@
           ['US-WY', 0]
         ]);
 
-
+	var table = new google.visualization.Table(document.getElementById('table'));
+        table.clearChart();
 
         var options = {
           region: 'US',
@@ -200,16 +221,24 @@
 
           if (currentRegion.substring(0, 3) == "US-") {
             options['displayMode'] = 'markers';
-            var data = google.visualization.arrayToDataTable([
-              ['City', 'Views', ],
-              ['San Francisco, CA', 100],
-              ['Los Angeles', 250],
-              ['Charlotte, NC', 0],
-              ['Raleigh, NC', 400],
-              ['Monroe, NC', 400],
-              ['Rock-Hill, SC', 400],
-            ]);
-          }
+
+		
+
+		var new_list = [ ['City', 'Average Grade'] ];
+		for (var i=0, l=list2.length; i<l; i++) {
+			if (list2[i][0].endsWith(currentRegion.substring(3,6))) {
+				var temp = [];
+				temp.push(list2[i][0]);
+				temp.push(list2[i][1]);
+				new_list.push(temp);
+			}
+		}		
+            var data = google.visualization.arrayToDataTable( new_list);
+            
+          
+	    table.draw(data,null);
+
+	}
 
           geochart.draw(data, options);
 
@@ -227,5 +256,9 @@
   <div id="chart_div"></div>
   <button class="reset" onClick="drawRegionsMap();$('#table').html('');">Twitter Info</button>
   <button class="reset" onClick="changeData();$('#table').html('');">Income Data</button>
+</div>
+
+<div class='city-data'>
+  <div id="table" style="width: 500px; height: 600px;"></div>
 </div>
 </html>

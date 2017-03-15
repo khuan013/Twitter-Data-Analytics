@@ -24,6 +24,8 @@ def index(request):
 
     data = session.execute("SELECT * FROM twitter.avgincomebycity")
     citylst = []
+
+    
     
 
     
@@ -31,10 +33,27 @@ def index(request):
         curr = []
         curr.append((data[i].place).encode('ascii','ignore'))
         curr.append(data[i].income)
+        curr.append(data[i].pop)
         citylst.append(curr)
 
     
-    return render_to_response('cs179/index.html', {'statedata' : lst, 'citydata' : citylst})
+    twittercity = []
+
+    data = session.execute("SELECT * FROM twitter.avggradebycity")
+
+    for i in range(0, 25301):
+        if len(data[i].place) > 4:
+            if data[i].place[-4] == ',' and data[i].avg_grade != None:
+
+                curr = []
+                curr.append((data[i].place).encode('ascii','ignore'))
+                curr.append(data[i].avg_grade)
+                twittercity.append(curr)
+    
+    
+    
+    
+    return render_to_response('cs179/index.html', {'statedata' : lst, 'citydata' : citylst, 'twitterdata': twittercity})
 
     #return render(request, 'cs179/index.html')
 
