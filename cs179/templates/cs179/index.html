@@ -1,13 +1,22 @@
-<h2>Search</h2>
+<!DOCTYPE html>
+<html>
 
+<head>
+    <title>TwitterGDB</title>
+</head>
+
+<body>
+<h1>TwitterGBD</h1>
+
+<h2>Search By City</h2>
 <form action="{% url 'cs179:results' %}" type="get">
-    <input type="text" name="city" />
+    <input type="text" name="city" placeholder="city..."/>
     <select name="state">
         <option value="AL">Alabama</value>
         <option value="AK">Alaska</value>
         <option value="AZ">Arizona</value>
         <option value="AR">Arkansas</value>
-        <option value="CA">California</value>
+        <option value="CA" selected="selected">California</value>
         <option value="CO">Colorado</value>
         <option value="CT">Connecticut</value>
         <option value="DE">Delaware</value>
@@ -57,3 +66,5 @@
     <br>
     <input type="submit" value="search" />
 </form>
+</body>
+</html>
