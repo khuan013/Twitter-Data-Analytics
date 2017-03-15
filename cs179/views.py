@@ -20,6 +20,7 @@ def results(request):
     followersRow = session.execute("SELECT * FROM twitter.avgfollowersbycity WHERE place = '%s'" % place)
     statusesRow = session.execute("SELECT * FROM twitter.avgstatusesbycity WHERE place = '%s'" % place)
     lengthRow = session.execute("SELECT * FROM twitter.avgtweetlengthbycity WHERE place = '%s'" % place)
+    domainsRow = session.execute("SELECT * FROM twitter.domainsbycity WHERE place = '%s'" % place)
     
     try:
         avg_grade = str(gradeRow[0].avg_grade)
@@ -51,6 +52,17 @@ def results(request):
     except IndexError:
         avg_tweet_length = "No Data"
 
+    try:
+        domainList = domainsRow[0].wordlist[:10]
+        domainFreqList = domainsRow[0].freqlist[:10]
+        domainHybridList = list()
+        for i in range(len(domainList)):
+            d = domainList[i] + " -- " + str(domainFreqList[i])
+            print(d)
+            domainHybridList.append(d)
+    except IndexError:
+        domainHybridList = ["No Data -- 0"]
+
     context = {
         'place' : place,
         'avg_grade' : avg_grade,
@@ -59,6 +71,7 @@ def results(request):
         'avg_followers' : avg_followers,
         'avg_statuses' : avg_statuses,
         'avg_tweet_length' : avg_tweet_length,
+        'domainHybridList' : domainHybridList,
     }
 
     return render(request, 'cs179/results.html', context)

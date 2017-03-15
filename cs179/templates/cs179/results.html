@@ -1,3 +1,8 @@
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
 <h1>{{ place }}</h1>
 
 <h2>Details:</h2>
@@ -27,5 +32,20 @@
         <td>{{ avg_tweet_length }}</td>
     </tr>
 </table>
+
+<br>
+
+<table>
+    <tr>
+        <th colspan="2">Most Popular Websites</th>
+    </tr>
+    {% for d in domainHybridList %}
+    <tr>
+        <td>{{ d }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
 
 <a href="{% url 'cs179:index' %}">Search Again</a>
