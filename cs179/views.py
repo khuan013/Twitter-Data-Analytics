@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
+
 
 from cassandra.cluster import Cluster
 cluster = Cluster(port=9043)
@@ -7,7 +9,24 @@ session = cluster.connect()
 
 # Create your views here.
 def index(request):
-    return render(request, 'cs179/index.html')
+    data = session.execute("SELECT * FROM twitter.avgincomebystate")
+    lst = [['State', 'Income']]
+    print data[0]
+   
+    for i in range(0, 47):
+        curr = []
+        curr.append(("US-" + data[i].state).encode('ascii','ignore'))
+        curr.append(data[i].income)
+        lst.append(curr)
+
+    print lst
+   
+    return render_to_response('cs179/index.html', {'mydata' : lst})
+
+    #return render(request, 'cs179/index.html')
+    
+
+
 
 def results(request):
     # form the query

@@ -68,3 +68,161 @@
 </form>
 </body>
 </html>
+
+<html>
+  <head>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+     google.load('visualization', '1', {
+        'packages': ['geochart', 'table']
+      });
+     google.setOnLoadCallback(changeData);
+
+	var currentRegion;
+	var data;
+
+    // INCOME DATA
+      function changeData() {
+
+        //var datafromDjango = {{ mydata|safe }};
+        //console.log(dataFromDjango);
+
+          data = google.visualization.arrayToDataTable( {{ mydata | safe}});
+        //data.addRows(datafromDjango);
+        /*data = google.visualization.arrayToDataTable([
+            {% for datum in datafromDjango %}
+            {{datum }}
+            {% endfor %}
+        ], false);*/
+
+
+        var options = {
+          colorAxis: {
+            colors: ['F5F8FF', '0048FE']
+          },
+          region: 'US',
+          displayMode: 'regions',
+          resolution: 'provinces',
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        chart.draw(data, options);
+
+
+        var geochart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        google.visualization.events.addListener(geochart, 'regionClick', function(eventData) {
+          currentRegion = eventData.region;
+          options['region'] = eventData.region;
+          options['resolution'] = 'provinces';
+
+
+          if (currentRegion.substring(0, 3) == "US-") {
+            options['displayMode'] = 'markers';
+
+            var data = google.visualization.arrayToDataTable([
+              ['City', 'Average Income' ],
+              ['San Francisco, CA', 100],
+              ['Los Angeles', 80],
+              ['San Diego', 0],
+              ['Oakland', 71],
+              ['Sacramento', 52],
+              ['Palm Springs', 41],
+            ]);
+          }
+
+          geochart.draw(data, options);
+
+
+        });
+        geochart.draw(data, options);
+
+      };
+
+
+      // Twitter Data
+      function drawRegionsMap() {
+
+        data = google.visualization.arrayToDataTable([
+          ['State', 'Select'],
+          ['US-CA', 1100],
+          ['US-AL', 250],
+          ['US-AK', 100],
+          ['US-AR', 320],
+          ['US-AK', 0],
+          ['US-AZ', 0],
+          ['US-Colorado', 0],
+          ['US-CO', 700],
+          ['US-DE', 0],
+          ['US-FL', 0],
+          ['US-HI', 800],
+          ['US-KS', 0],
+          ['US-KY', 17],
+          ['US-MI', 0],
+          ['US-MO', 211],
+          ['US-MS', 0],
+          ['US-MT', 0],
+          ['US-NE', 0],
+          ['US-NJ', 345],
+          ['US-NM', 0],
+          ['US-NY', 0],
+          ['US-OR', 0],
+          ['US-PA', 150],
+          ['US-TX', 0],
+          ['US-UT', 0],
+          ['US-VA', 0],
+          ['US-WA', 0],
+          ['US-WV', 0],
+          ['US-WY', 0]
+        ]);
+
+
+
+        var options = {
+          region: 'US',
+          displayMode: 'regions',
+          resolution: 'provinces',
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        chart.draw(data, options);
+
+
+        var geochart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        google.visualization.events.addListener(geochart, 'regionClick', function(eventData) {
+          currentRegion = eventData.region;
+          options['region'] = eventData.region;
+          options['resolution'] = 'provinces';
+
+          if (currentRegion.substring(0, 3) == "US-") {
+            options['displayMode'] = 'markers';
+            var data = google.visualization.arrayToDataTable([
+              ['City', 'Views', ],
+              ['San Francisco, CA', 100],
+              ['Los Angeles', 250],
+              ['Charlotte, NC', 0],
+              ['Raleigh, NC', 400],
+              ['Monroe, NC', 400],
+              ['Rock-Hill, SC', 400],
+            ]);
+          }
+
+          geochart.draw(data, options);
+
+
+        });
+        geochart.draw(data, options);
+
+      };
+    </script>
+  </head>
+  <body>
+    <div id="regions_div" style="width: 900px; height: 500px;"></div>
+  </body>
+<div style="float:left">
+  <div id="chart_div"></div>
+  <button class="reset" onClick="drawRegionsMap();$('#table').html('');">Twitter Info</button>
+  <button class="reset" onClick="changeData();$('#table').html('');">Income Data</button>
+</div>
+</html>
