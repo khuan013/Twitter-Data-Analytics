@@ -19,11 +19,25 @@ def index(request):
         curr.append(data[i].income)
         lst.append(curr)
 
-    print lst
+    #print lst
    
-    return render_to_response('cs179/index.html', {'mydata' : lst})
+
+    data = session.execute("SELECT * FROM twitter.avgincomebycity")
+    citylst = []
+    
+
+    
+    for i in range(0, 22157):
+        curr = []
+        curr.append((data[i].place).encode('ascii','ignore'))
+        curr.append(data[i].income)
+        citylst.append(curr)
+
+    
+    return render_to_response('cs179/index.html', {'statedata' : lst, 'citydata' : citylst})
 
     #return render(request, 'cs179/index.html')
+
     
 
 
