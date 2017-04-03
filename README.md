@@ -40,8 +40,8 @@ Cassandra 2.0.17
  Screenshots
  ---
  
- ![alt text](https://files.slack.com/files-pri/T3U80TB8F-F4K0WUVT7/pic.png)
+ ![alt text](http://i.imgur.com/ei41sZ6.png)
  
- ![alt text](https://files.slack.com/files-pri/T3U80TB8F-F4J7SRJ2V/marker2.png)
+ ![alt text](http://i.imgur.com/2CWv8tl.png)
  
  
